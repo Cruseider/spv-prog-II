@@ -1,5 +1,5 @@
 require'./lib/coin.rb'
 
-my_cain = Coin.new = value
+my_coin = Coin.new = value
 
-puts
+puts 
