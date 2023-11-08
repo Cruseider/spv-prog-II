@@ -1,15 +1,10 @@
 class BankAccount
-  class InvalidInitialValueError < RuntimeError; end
-  class InvalidDepositValueError < RuntimeError; end
-  class InsufficientFundsError < RuntimeError; end
-  class SavingsAlreadyExistsError < RuntimeError; end
-  class NoSavingsError < RuntimeError; end
-  class InvalidWithdrawalAmount < RuntimeError; end
 
   attr_accessor :balance, :savings, :savings_start_date
 
-  BASE_RATE = 2.5
+  
 
+  class InvalidInitialValueError < RuntimeError; end
   def initialize(balance:)
     raise InvalidInitialValueError if balance.negative?
 
@@ -18,12 +13,15 @@ class BankAccount
     @savings_start_date = nil
   end
 
+  class InvalidDepositValueError < RuntimeError; end
   def deposit(amount)
     raise InvalidDepositValueError if amount.negative?
 
     self.balance += amount
   end
 
+  class InvalidWithdrawalAmount < RuntimeError; end
+  class InsufficientFundsError < RuntimeError; end
   def withdraw(amount)
     raise InvalidWithdrawalAmount if amount.negative?
     raise InsufficientFundsError if amount > balance
@@ -31,6 +29,10 @@ class BankAccount
     self.balance -= amount
   end
 
+
+  class SavingsAlreadyExistsError < RuntimeError; end
+  class NoSavingsError < RuntimeError; end
+  class InvalidDepositValueError < RuntimeError; end
   def create_savings(deposit_amount)
     raise InsufficientFundsError if deposit_amount > balance
     raise SavingsAlreadyExistsError unless savings.nil?
@@ -40,6 +42,8 @@ class BankAccount
     self.savings_start_date = Date.today
     balance - deposit_amount
   end
+
+BASE_RATE = 2.5
 
   def withdraw_savings
     raise NoSavingsError if savings.nil?
